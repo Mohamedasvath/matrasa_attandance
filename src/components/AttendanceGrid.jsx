@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import AttendanceModal from "./AttendanceModal";
 
-const STATUS = ["", "P", "A", "L"];
+const STATUS = ["", "ح", "غ", "L"];
 
 const AttendanceGrid = ({ students, onEdit }) => {
 
