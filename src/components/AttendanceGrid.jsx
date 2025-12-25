@@ -2,11 +2,8 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import AttendanceModal from "./AttendanceModal";
 
-<<<<<<< HEAD
 // Attendance rotation values
 // "" → blank → ح(present) → غ(absent) → L(leave)
-=======
->>>>>>> bd367d0b6ed15d0bc7fa36ae1ca59730847f792b
 const STATUS = ["", "ح", "غ", "L"];
 
 const AttendanceGrid = ({ students, onEdit }) => {
@@ -92,9 +89,9 @@ const AttendanceGrid = ({ students, onEdit }) => {
 
                     className={`w-8 h-8 rounded-md flex items-center justify-center cursor-pointer text-xs font-bold
                       ${
-                        val=="ح" ? "bg-emerald-500 text-black" :         // Present ✔
-                        val=="غ" ? "bg-red-600 text-white" :            // Absent ✖
-                        val=="L" ? "bg-yellow-400 text-black" :         // Leave 🕒
+                        val=="ح" ? "bg-emerald-500 text-black" :        
+                        val=="غ" ? "bg-red-600 text-white" :           
+                        val=="L" ? "bg-yellow-400 text-black" :        
                         "bg-black border border-emerald-800 text-white/30"
                       }
                     `}
@@ -109,7 +106,7 @@ const AttendanceGrid = ({ students, onEdit }) => {
         </div>
       </div>
 
-      {/* Modal (future use if needed) */}
+      {/* Modal */}
       {selected && (
         <AttendanceModal 
           student={selected.student}
