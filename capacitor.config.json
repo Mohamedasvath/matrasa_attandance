@@ -1,0 +1,6 @@
+{
+  "appId": "com.masjid.attendance",
+  "appName": "Madrasa Attendance",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
