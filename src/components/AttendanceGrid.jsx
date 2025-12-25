@@ -2,8 +2,11 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import AttendanceModal from "./AttendanceModal";
 
+<<<<<<< HEAD
 // Attendance rotation values
 // "" → blank → ح(present) → غ(absent) → L(leave)
+=======
+>>>>>>> bd367d0b6ed15d0bc7fa36ae1ca59730847f792b
 const STATUS = ["", "ح", "غ", "L"];
 
 const AttendanceGrid = ({ students, onEdit }) => {
