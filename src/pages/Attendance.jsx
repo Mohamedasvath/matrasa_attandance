@@ -1,114 +1,72 @@
-// import { useState, useEffect } from "react";
-// import AttendanceCard from "../components/AttendanceCard";
-// import AttendanceModal from "../components/AttendanceModal";
-// import StudentForm from "../components/StudentForm";
-// import MonthlyReport from "../components/MonthlyReport";
-// import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Users } from "lucide-react";
+import AttendanceGrid from "../components/AttendanceGrid";
+import StudentForm from "../components/StudentForm";
+import PDFButton from "../components/PDFButton";
+import { Link } from "react-router-dom";
 
-// const today = new Date().toISOString().split("T")[0];
+const AttendancePage = () => {
+  const [students, setStudents] = useState(() => {
+    return JSON.parse(localStorage.getItem("students")) || [];
+  });
+  const [editStudent, setEditStudent] = useState(null);
 
-// const Attendance = () => {
-//   const [students, setStudents] = useState([]);
-//   const [attendance, setAttendance] = useState({});
-//   const [selectedStudent, setSelectedStudent] = useState(null);
-//   const [selectedDate, setSelectedDate] = useState(today);
-//   const [showReport, setShowReport] = useState(false);
+  const addStudent = (name) => {
+    const updated = [...students, { id: Date.now(), name }];
+    setStudents(updated);
+    localStorage.setItem("students", JSON.stringify(updated));
+  };
 
-//   useEffect(() => {
-//     setStudents(JSON.parse(localStorage.getItem("students")) || []);
-//     setAttendance(JSON.parse(localStorage.getItem("attendance")) || {});
-//   }, []);
+  const updateStudent = (name) => {
+    const updated = students.map((s) =>
+      s.id === editStudent.id ? { ...s, name } : s
+    );
+    setStudents(updated);
+    localStorage.setItem("students", JSON.stringify(updated));
+    setEditStudent(null);
+  };
 
-//   const addStudent = (name) => {
-//     if (!name) return;
-//     const updated = [...students, { id: Date.now(), name }];
-//     setStudents(updated);
-//     localStorage.setItem("students", JSON.stringify(updated));
-//   };
+  const deleteStudent = (id) => {
+    const updated = students.filter((s) => s.id !== id);
+    setStudents(updated);
+    localStorage.setItem("students", JSON.stringify(updated));
+    setEditStudent(null);
+  };
 
-//   const deleteStudent = (id) => {
-//     const updated = students.filter((s) => s.id !== id);
-//     setStudents(updated);
-//     localStorage.setItem("students", JSON.stringify(updated));
-//   };
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-black via-emerald-950 to-black text-white p-6">
+      <h1 className="text-center text-4xl font-bold text-emerald-400">📘 Attendance Register</h1>
 
-//   const markAttendance = (status) => {
-//     const updated = {
-//       ...attendance,
-//       [selectedDate]: {
-//         ...(attendance[selectedDate] || {}),
-//         [selectedStudent.id]: status,
-//       },
-//     };
-//     setAttendance(updated);
-//     localStorage.setItem("attendance", JSON.stringify(updated));
-//     setSelectedStudent(null);
-//   };
+      <StudentForm
+        onAdd={addStudent}
+        onUpdate={updateStudent}
+        onDelete={() => deleteStudent(editStudent?.id)}
+        editStudent={editStudent}
+        onCancel={() => setEditStudent(null)}
+      />
 
-//   return (
-//     <div className="p-4 max-w-6xl mx-auto">
-//       <motion.h1
-//         initial={{ opacity: 0, y: -20 }}
-//         animate={{ opacity: 1, y: 0 }}
-//         className="text-3xl font-bold text-center text-emerald-700"
-//       >
-//         🕌 Masjid Attendance
-//       </motion.h1>
+      {students.length > 0 && (
+        <div className="flex justify-between mt-4">
+          <p className="text-emerald-400">Total: {students.length}</p>
+          <PDFButton />
+        </div>
+      )}
 
-//       <p className="text-center text-gray-500 mb-6">
-//         “Indeed, prayer prohibits immorality” – Quran 29:45
-//       </p>
+      {students.length > 0 ? (
+        <AttendanceGrid students={students} onEdit={setEditStudent} />
+      ) : (
+        <p className="text-center mt-10 opacity-70">No students added yet</p>
+      )}
 
-//       <div className="flex flex-wrap gap-4 justify-between items-center mb-6">
-//         <input
-//           type="date"
-//           value={selectedDate}
-//           onChange={(e) => setSelectedDate(e.target.value)}
-//           className="border px-3 py-2 rounded-lg"
-//         />
+      {/* 🔥 Button to open Namaz Attendance */}
+      <Link to="/namaz" className="block text-center mt-8">
+        <button className="bg-emerald-500 hover:bg-emerald-400 px-6 py-3 rounded-xl font-bold">
+          🕌 Go to Namaz Attendance
+        </button>
+      </Link>
+    </div>
+  );
+};
 
-//         <button
-//           onClick={() => setShowReport(!showReport)}
-//           className="bg-emerald-600 text-white px-4 py-2 rounded-lg"
-//         >
-//           {showReport ? "Back to Attendance" : "Monthly Report"}
-//         </button>
-//       </div>
-
-//       {!showReport && (
-//         <>
-//           <StudentForm onAdd={addStudent} />
-
-//           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
-//             {students.map((student) => (
-//               <AttendanceCard
-//                 key={student.id}
-//                 student={student}
-//                 status={attendance[selectedDate]?.[student.id]}
-//                 onClick={() => setSelectedStudent(student)}
-//                 onDelete={deleteStudent}
-//               />
-//             ))}
-//           </div>
-//         </>
-//       )}
-
-//       {showReport && (
-//         <MonthlyReport
-//           students={students}
-//           attendance={attendance}
-//         />
-//       )}
-
-//       {selectedStudent && (
-//         <AttendanceModal
-//           student={selectedStudent}
-//           onClose={() => setSelectedStudent(null)}
-//           onMark={markAttendance}
-//         />
-//       )}
-//     </div>
-//   );
-// };
-
-// export default Attendance;
+export default AttendancePage;
