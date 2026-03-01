@@ -65,7 +65,7 @@ export default function NamazAttendance() {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Enter Student Name..." 
-            className="flex-grow bg-transparent px-6 py-2 outline-none text-sm placeholder:text-emerald-100/20"
+            className="flex-grow bg-transparent px-6 py-2 outline-none text-sm placeholder:text-white"
           />
           <button 
             onClick={addStudent}

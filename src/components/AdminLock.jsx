@@ -38,16 +38,16 @@ const AdminLock = ({ onUnlock }) => {
         {/* Islamic Crest */}
         <div className="relative mb-8">
           <div className="w-20 h-20 rounded-full bg-emerald-500/10  border-emerald-500/30 flex items-center justify-center shadow-inner">
-            <Moon className="text-emerald-400 fill-emerald-400/20" size={32} />
+            <Moon className="text-white fill-emerald-400/20" size={32} />
           </div>
-          <Star className="absolute -top-1 -right-1 text-emerald-300 animate-pulse" size={16} />
+          
         </div>
 
         <div className="text-center mb-10">
           <h2 className="text-2xl font-bold text-white tracking-widest uppercase italic">
             JUMMAH <span className="text-emerald-500 font-black">MASJID</span>
           </h2>
-          <p className="font-arabic text-emerald-200/40 text-lg mt-2 tracking-widest">
+          <p className="font-arabic text-white text-lg mt-2 tracking-widest">
             بسم الله الرحمن الرحيم
           </p>
         </div>

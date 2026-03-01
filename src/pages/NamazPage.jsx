@@ -56,7 +56,7 @@ export default function NamazPage() {
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center gap-2 text-emerald-500/60 font-bold text-[9px] sm:text-[10px] tracking-[0.3em] sm:tracking-[0.5em] uppercase"
+            className="flex items-center gap-2 text-white font-bold text-[9px] sm:text-[10px] tracking-[0.3em] sm:tracking-[0.5em] uppercase"
           >
             <CloudMoon size={12} className="animate-pulse" /> Spiritual Tracker
           </motion.div>
@@ -69,7 +69,7 @@ export default function NamazPage() {
             Namaz <span className="text-emerald-400">RECORD</span>
           </motion.h1>
           
-          <motion.p className="text-emerald-100/30 text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] sm:tracking-[0.3em]">
+          <motion.p className="text-white text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] sm:tracking-[0.3em]">
             {month} {year}
           </motion.p>
         </header>

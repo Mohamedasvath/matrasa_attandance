@@ -55,7 +55,7 @@ const StudentForm = ({ onAdd, onUpdate, onDelete, editStudent, onCancel }) => {
                 onChange={(e) => setName(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && (editStudent ? handleUpdate() : handleAdd())}
                 placeholder="Student name..."
-                className="w-full pl-12 pr-4 py-4 bg-transparent border-none focus:ring-0 text-lg placeholder:text-white/10 text-white"
+                className="w-full pl-12 pr-4 py-4 bg-transparent border-none focus:ring-0 text-lg placeholder:text-white text-white"
               />
             </div>
 

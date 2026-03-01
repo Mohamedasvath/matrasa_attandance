@@ -68,7 +68,7 @@ const Dashboard = () => {
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-center gap-2 text-emerald-500/60 font-bold text-[10px] tracking-[0.4em] uppercase"
+            className="flex items-center justify-center gap-2 text-white font-bold text-[10px] tracking-[0.4em] uppercase"
           >
             <LayoutDashboard size={14} /> Management Portal
           </motion.div>
@@ -81,7 +81,7 @@ const Dashboard = () => {
             <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40 uppercase">
               Madrasa <span className="text-emerald-400">Attendance</span>
             </h1>
-            <p className="font-arabic text-xl sm:text-2xl text-emerald-300/80 tracking-widest py-2">
+            <p className="font-arabic text-xl sm:text-2xl text-white tracking-widest py-2">
               بسم الله الرحمن الرحيم
             </p>
           </motion.div>
@@ -152,7 +152,7 @@ const Dashboard = () => {
               <div className="inline-flex p-5 rounded-full bg-emerald-500/5 mb-4">
                 <Sparkles size={32} className="text-emerald-500/20" />
               </div>
-              <p className="text-emerald-100/20 text-xs tracking-[0.3em] uppercase font-bold italic">
+              <p className="text-white text-xs tracking-[0.3em] uppercase font-bold italic">
                 Portal is ready for first entry
               </p>
             </motion.div>
