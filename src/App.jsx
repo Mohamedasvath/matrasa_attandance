@@ -23,7 +23,7 @@ const SplashLoader = () => (
       {/* Background Glow */}
       <div className="absolute inset-0 bg-emerald-500/20 blur-3xl rounded-full" />
       <div className="relative w-20 h-20 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-        <Sparkles size={40} className="text-emerald-400" />
+        <Moon size={40} className="text-emerald-400" />
       </div>
     </motion.div>
 

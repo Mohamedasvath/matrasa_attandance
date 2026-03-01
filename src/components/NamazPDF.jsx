@@ -1,103 +1,71 @@
 import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import { FileDown, Moon } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function NamazPDF({ students }) {
   const downloadPDF = () => {
     const attendance = JSON.parse(localStorage.getItem("namaz_attendance") || "{}");
-
     const doc = new jsPDF("p", "mm", "a4");
-
-  const PRAYERS = ["F", "D", "A", "M", "I", "T", "Fst"];
-    
-    // Format today's date
+    const PRAYERS = ["F", "D", "A", "M", "I", "T", "Fst"];
     const today = new Date();
-    const fileDate =
-      today.getDate().toString().padStart(2,"0") + "-" +
-      (today.getMonth() + 1).toString().padStart(2,"0") + "-" +
-      today.getFullYear();
+    const fileDate = today.toLocaleDateString("en-GB").replace(/\//g, "-");
 
-    // PDF legend mapping
-    const mapStatus = (v) =>
-  v === "✓" ? "P" :
-  v === "✗" ? "A" :
-  v === "L" ? "L" :
-  v === "Y" ? "Y" :
-  v === "N" ? "N" :
-  "-";
+    doc.setTextColor(16, 185, 129);
+    doc.setFontSize(22); doc.setFont("helvetica", "bold");
+    doc.text("MAKKAH MASJID", 105, 15, { align: "center" });
 
-    let y = 20;
-    doc.setFontSize(18).setFont("helvetica","bold");
-    doc.text("🕌 Namaz Attendance Report", 105, y, { align:"center" });
-    y += 12;
+    doc.setTextColor(100); doc.setFontSize(12); doc.setFont("helvetica", "normal");
+    doc.text("NAMAZ ATTENDANCE REPORT", 105, 22, { align: "center" });
+    doc.setFontSize(9); doc.text(`Generated: ${fileDate}`, 195, 22, { align: "right" });
 
-    // Show date inside PDF top
-    doc.setFontSize(11).setFont("helvetica","normal");
-    doc.text(`Date: ${fileDate}`, 105, y, { align:"center" });
-    y += 8;
+    const mapStatus = (v) => {
+      if (v === "✓") return "P";
+      if (v === "✗") return "A";
+      return v || "-";
+    };
 
-    // Legend
-    doc.setFontSize(10);
-    doc.text("P = Present | A = Absent | L = Leave | - = Empty", 105, y, {align:"center"});
-    y += 10;
+    let currentY = 30;
+    students.forEach((name, index) => {
+      if (currentY > 240) { doc.addPage(); currentY = 20; }
+      doc.setTextColor(40); doc.setFontSize(12); doc.setFont("helvetica", "bold");
+      doc.text(`${index + 1}. Student: ${name.toUpperCase()}`, 14, currentY);
 
-    students.forEach(name => {
-      if (y > 260) { doc.addPage(); y = 20; }
+      const days = Object.keys(attendance[name] || {}).map(Number).sort((a, b) => a - b);
+      const tableBody = days.map((day) => [`Day ${day}`, ...PRAYERS.map((p) => mapStatus(attendance[name]?.[day]?.[p]))]);
 
-      doc.setFontSize(14).setFont("helvetica","bold");
-      doc.text(name, 14, y);
-      y += 8;
-
-    const colWidths = [18,18,18,18,18,18,18,18];
-      const rowHeight = 9;
-      let x = 14;
-
-      // Header Row
-      doc.setFontSize(11).setFont("helvetica","bold");
-      const headers = ["Day", ...PRAYERS];
-
-      headers.forEach((h,i)=>{
-        doc.rect(x,y,colWidths[i],rowHeight);
-        doc.text(h,x+colWidths[i]/2,y+6,{align:"center"});
-        x += colWidths[i];
+      autoTable(doc, {
+        startY: currentY + 4,
+        head: [["Timeline", "Fajr", "Dhuhr", "Asr", "Maghrib", "Isha", "Tara", "Fast"]],
+        body: tableBody,
+        theme: "grid",
+        styles: { fontSize: 8, halign: "center" },
+        headStyles: { fillColor: [6, 78, 59], textColor: [255, 255, 255] },
+        margin: { left: 14, right: 14 },
+        didParseCell: (data) => {
+          if (data.section === 'body') {
+            if (data.cell.text[0] === 'P') data.cell.styles.textColor = [16, 185, 129];
+            if (data.cell.text[0] === 'A') data.cell.styles.textColor = [239, 68, 68];
+          }
+        }
       });
-
-      y += rowHeight;
-
-      const days = Object.keys(attendance[name] || {})
-        .map(Number)
-        .sort((a,b)=>a-b);
-
-      days.forEach(day=>{
-        if (y > 260) { doc.addPage(); y = 20; }
-
-        x = 14;
-        const row = [
-          `Day ${day}`,
-          ...PRAYERS.map(p=>mapStatus(attendance[name]?.[day]?.[p] || "-"))
-        ];
-
-        row.forEach((v,i)=>{
-          doc.rect(x,y,colWidths[i],rowHeight);
-          doc.text(v.toString(),x+colWidths[i]/2,y+6,{align:"center"});
-          x += colWidths[i];
-        });
-
-        y += rowHeight;
-      });
-
-      y += 10;
+      currentY = doc.lastAutoTable.finalY + 12;
     });
-
-    doc.save(`Namaz_Attendance_${fileDate}.pdf`);
+    doc.save(`Namaz_Report_${fileDate}.pdf`);
   };
 
   return (
-    <div className="flex justify-center mt-6">
-      <button
-        onClick={downloadPDF}
-        className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-xl transition font-semibold"
-      >
-        Download PDF
-      </button>
-    </div>
+    // mt-10 and flex justify-center removed to let the parent handle alignment
+    <motion.button
+      whileHover={{ scale: 1.02, backgroundColor: "rgba(16, 185, 129, 0.2)" }}
+      whileTap={{ scale: 0.98 }}
+      onClick={downloadPDF}
+      className="group relative flex items-center justify-center gap-3 h-14 w-full sm:w-auto sm:px-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold transition-all whitespace-nowrap"
+    >
+      <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
+      <FileDown size={18} className="group-hover:translate-y-1 transition-transform" />
+      <span className="text-[11px] uppercase tracking-widest font-black">All Data</span>
+      <Moon size={14} className="text-emerald-500/40" />
+    </motion.button>
   );
 }
