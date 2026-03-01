@@ -6,7 +6,7 @@ export default function NamazPDF({ students }) {
 
     const doc = new jsPDF("p", "mm", "a4");
 
-    const PRAYERS = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
+  const PRAYERS = ["F", "D", "A", "M", "I", "T", "Fst"];
     
     // Format today's date
     const today = new Date();
@@ -17,10 +17,12 @@ export default function NamazPDF({ students }) {
 
     // PDF legend mapping
     const mapStatus = (v) =>
-      v === "✓" ? "P" :
-      v === "✗" ? "A" :
-      v === "L" ? "L" :
-      "-";
+  v === "✓" ? "P" :
+  v === "✗" ? "A" :
+  v === "L" ? "L" :
+  v === "Y" ? "Y" :
+  v === "N" ? "N" :
+  "-";
 
     let y = 20;
     doc.setFontSize(18).setFont("helvetica","bold");
@@ -44,7 +46,7 @@ export default function NamazPDF({ students }) {
       doc.text(name, 14, y);
       y += 8;
 
-      const colWidths = [18,28,28,28,28,28];
+    const colWidths = [18,18,18,18,18,18,18,18];
       const rowHeight = 9;
       let x = 14;
 
