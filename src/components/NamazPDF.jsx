@@ -16,7 +16,7 @@ export default function NamazPDF({ students }) {
     doc.text("MAKKAH MASJID", 105, 15, { align: "center" });
 
     doc.setTextColor(100); doc.setFontSize(12); doc.setFont("helvetica", "normal");
-    doc.text("NAMAZ ATTENDANCE REPORT", 105, 22, { align: "center" });
+    doc.text("NAMAZ ATTENDANCE - Seguravathanoor", 105, 22, { align: "center" });
     doc.setFontSize(9); doc.text(`Generated: ${fileDate}`, 195, 22, { align: "right" });
 
     const mapStatus = (v) => {
